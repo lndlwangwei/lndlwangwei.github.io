@@ -94,17 +94,17 @@
 
 
 
-<meta name="description" content="###需求    nginx常年累月地运行，会产生大量的日志，这些日志如果一直存放在一个文件中，会导致日志文件越来越大，最终    查阅这些文件时会非常麻烦，因此如果每天的日志存放在单独一个文件中，维护起来就会非常方便了。但是nginx没有    提供这个功能，因此，需要我们写脚本来实现这个功能。 ###脚本1234567891011121314151617181920212223LOGS_PAT">
+<meta name="description" content="需求nginx常年累月地运行，会产生大量的日志，这些日志如果一直存放在一个文件中，会导致日志文件越来越大，最终 查阅这些文件时会非常麻烦，因此如果每天的日志存放在单独一个文件中，维护起来就会非常方便了。但是nginx没有 提供这个功能，因此，需要我们写脚本来实现这个功能。 脚本1234567891011121314151617181920212223LOGS_PATH=/usr/local/ngi">
 <meta name="keywords" content="nginx">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nginx每天生成一个log文件">
 <meta property="og:url" content="http://yoursite.com/2018/02/03/nginx每天生成一个log文件/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="###需求    nginx常年累月地运行，会产生大量的日志，这些日志如果一直存放在一个文件中，会导致日志文件越来越大，最终    查阅这些文件时会非常麻烦，因此如果每天的日志存放在单独一个文件中，维护起来就会非常方便了。但是nginx没有    提供这个功能，因此，需要我们写脚本来实现这个功能。 ###脚本1234567891011121314151617181920212223LOGS_PAT">
-<meta property="og:updated_time" content="2018-02-03T05:18:22.050Z">
+<meta property="og:description" content="需求nginx常年累月地运行，会产生大量的日志，这些日志如果一直存放在一个文件中，会导致日志文件越来越大，最终 查阅这些文件时会非常麻烦，因此如果每天的日志存放在单独一个文件中，维护起来就会非常方便了。但是nginx没有 提供这个功能，因此，需要我们写脚本来实现这个功能。 脚本1234567891011121314151617181920212223LOGS_PATH=/usr/local/ngi">
+<meta property="og:updated_time" content="2018-02-03T05:19:11.530Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx每天生成一个log文件">
-<meta name="twitter:description" content="###需求    nginx常年累月地运行，会产生大量的日志，这些日志如果一直存放在一个文件中，会导致日志文件越来越大，最终    查阅这些文件时会非常麻烦，因此如果每天的日志存放在单独一个文件中，维护起来就会非常方便了。但是nginx没有    提供这个功能，因此，需要我们写脚本来实现这个功能。 ###脚本1234567891011121314151617181920212223LOGS_PAT">
+<meta name="twitter:description" content="需求nginx常年累月地运行，会产生大量的日志，这些日志如果一直存放在一个文件中，会导致日志文件越来越大，最终 查阅这些文件时会非常麻烦，因此如果每天的日志存放在单独一个文件中，维护起来就会非常方便了。但是nginx没有 提供这个功能，因此，需要我们写脚本来实现这个功能。 脚本1234567891011121314151617181920212223LOGS_PATH=/usr/local/ngi">
 
 
 
@@ -302,6 +302,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nginx/" itemprop="url" rel="index">
+                    <span itemprop="name">nginx</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -329,10 +351,13 @@
       
 
       
-        <p>###需求<br>    nginx常年累月地运行，会产生大量的日志，这些日志如果一直存放在一个文件中，会导致日志文件越来越大，最终<br>    查阅这些文件时会非常麻烦，因此如果每天的日志存放在单独一个文件中，维护起来就会非常方便了。但是nginx没有<br>    提供这个功能，因此，需要我们写脚本来实现这个功能。</p>
-<p>###脚本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">LOGS_PATH=/usr/local/nginx/logs</span><br><span class="line">DEST_LOGS_PATH=/data/logs/nginx</span><br><span class="line">PID_FILE=/usr/local/nginx/logs/nginx.pid</span><br><span class="line"></span><br><span class="line">YESTERDAY=$(date -d -1day +%Y-%m-%d)</span><br><span class="line">TWO_MONTH_AGO=$(date -d -60day +%Y-%m-%d)</span><br><span class="line">OLD_ACCESS_LOG=$&#123;DEST_LOGS_PATH&#125;/access_$&#123;TWO_MONTH_AGO&#125;.log</span><br><span class="line">OLD_ERROR_LOG=$&#123;DEST_LOGS_PATH&#125;/error_$&#123;TWO_MONTH_AGO&#125;.log</span><br><span class="line"></span><br><span class="line">mv $&#123;LOGS_PATH&#125;/access.log $&#123;DEST_LOGS_PATH&#125;/access_$&#123;YESTERDAY&#125;.log</span><br><span class="line">mv $&#123;LOGS_PATH&#125;/error.log $&#123;DEST_LOGS_PATH&#125;/error_$&#123;YESTERDAY&#125;.log </span><br><span class="line"></span><br><span class="line">echo $&#123;TWO_MONTH_AGO&#125;</span><br><span class="line"></span><br><span class="line"># 删除两个月以前的access error log</span><br><span class="line">if [ -f $&#123;OLD_ACCESS_LOG&#125; ]; then</span><br><span class="line">	rm -rf $&#123;OLD_ACCESS_LOG&#125;</span><br><span class="line">fi</span><br><span class="line">if [ -f $&#123;OLD_ERROR_LOG&#125; ]; then</span><br><span class="line">	rm -rf $&#123;OLD_ERROR_LOG&#125;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">sudo kill -USR1 $(cat $PID_FILE)</span><br></pre></td></tr></table></figure></p>
-<p>###说明<br>    上述功能实现了每天把日志文件转存到另外一个目录下，然后LOGS_PATH会产生两个新的日志文件，nginx新产生<br>    文件都会保存在新日志文件中，这种方式变相实现了日志俺日期分割。另外，此脚本也会删除2个月前的日志。</p>
-
+        <h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><pre><code>nginx常年累月地运行，会产生大量的日志，这些日志如果一直存放在一个文件中，会导致日志文件越来越大，最终
+查阅这些文件时会非常麻烦，因此如果每天的日志存放在单独一个文件中，维护起来就会非常方便了。但是nginx没有
+提供这个功能，因此，需要我们写脚本来实现这个功能。
+</code></pre><h3 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">LOGS_PATH=/usr/local/nginx/logs</span><br><span class="line">DEST_LOGS_PATH=/data/logs/nginx</span><br><span class="line">PID_FILE=/usr/local/nginx/logs/nginx.pid</span><br><span class="line"></span><br><span class="line">YESTERDAY=$(date -d -1day +%Y-%m-%d)</span><br><span class="line">TWO_MONTH_AGO=$(date -d -60day +%Y-%m-%d)</span><br><span class="line">OLD_ACCESS_LOG=$&#123;DEST_LOGS_PATH&#125;/access_$&#123;TWO_MONTH_AGO&#125;.log</span><br><span class="line">OLD_ERROR_LOG=$&#123;DEST_LOGS_PATH&#125;/error_$&#123;TWO_MONTH_AGO&#125;.log</span><br><span class="line"></span><br><span class="line">mv $&#123;LOGS_PATH&#125;/access.log $&#123;DEST_LOGS_PATH&#125;/access_$&#123;YESTERDAY&#125;.log</span><br><span class="line">mv $&#123;LOGS_PATH&#125;/error.log $&#123;DEST_LOGS_PATH&#125;/error_$&#123;YESTERDAY&#125;.log </span><br><span class="line"></span><br><span class="line">echo $&#123;TWO_MONTH_AGO&#125;</span><br><span class="line"></span><br><span class="line"># 删除两个月以前的access error log</span><br><span class="line">if [ -f $&#123;OLD_ACCESS_LOG&#125; ]; then</span><br><span class="line">	rm -rf $&#123;OLD_ACCESS_LOG&#125;</span><br><span class="line">fi</span><br><span class="line">if [ -f $&#123;OLD_ERROR_LOG&#125; ]; then</span><br><span class="line">	rm -rf $&#123;OLD_ERROR_LOG&#125;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">sudo kill -USR1 $(cat $PID_FILE)</span><br></pre></td></tr></table></figure>
+<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><pre><code>上述功能实现了每天把日志文件转存到另外一个目录下，然后LOGS_PATH会产生两个新的日志文件，nginx新产生
+文件都会保存在新日志文件中，这种方式变相实现了日志俺日期分割。另外，此脚本也会删除2个月前的日志。
+</code></pre>
       
     </div>
     
@@ -422,8 +447,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -449,7 +483,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
@@ -485,6 +519,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#需求"><span class="nav-number">1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#脚本"><span class="nav-number">2.</span> <span class="nav-text">脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#说明"><span class="nav-number">3.</span> <span class="nav-text">说明</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
